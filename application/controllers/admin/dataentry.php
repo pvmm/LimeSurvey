@@ -1323,7 +1323,7 @@ class dataentry extends Survey_Common_Action
                                 . "<td>{$fname['subquestion1']}:{$fname['subquestion2']}</td>\n";
                                 $aDataentryoutput .= "<td>\n";
                                 $aDataentryoutput .= "\t<input type='text' name='{$fname['fieldname']}' value='";
-                                if(!empty($idrow[$fname['fieldname']])) {$aDataentryoutput .= $idrow[$fname['fieldname']];}
+                                if(isset($idrow[$fname['fieldname']])) {$aDataentryoutput .= $idrow[$fname['fieldname']];}
                                 $aDataentryoutput .= "' /></td>\n"
                                 ."\t</tr>\n";
                                 $fname=next($fnames);
