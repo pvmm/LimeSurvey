@@ -47,7 +47,7 @@
                 'value' => $dateoutput,
                 'pluginOptions' => array(
                     'format' => $dateformatdetailsjs,
-                    'allowInputToggle' =>true,
+                    'allowInputToggle' => false,
                     'showClear' => true,
                             'tooltips' => array(
                                 'clear'=> gT('Clear selection'),
