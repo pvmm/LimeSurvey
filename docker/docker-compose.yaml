@@ -3,28 +3,32 @@ services:
 
   web-server:
     build:
-      dockerfile: Dockerfile
+      dockerfile: web-server.Dockerfile
       context: .
+    restart: always
     volumes:
       - "./html/:/var/www/html/"
     ports:
       - "8080:80"
 
   mysql-server:
-    image: mysql:8.0.19
+    build:
+      dockerfile: mysql-server.Dockerfile
+      context: .
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: limesurvey
     volumes:
-      - mysql-data:/var/lib/mysql
+      - "./mysql-data:/var/lib/mysql/"
+    #command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.0.1
+    restart: always
     environment:
       PMA_HOST: mysql-server
       PMA_USER: root
       PMA_PASSWORD: secret
     ports:
       - "5000:80"
-
-volumes:
-  mysql-data:
