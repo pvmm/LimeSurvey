@@ -8,9 +8,14 @@ services:
     restart: always
     volumes:
       - "./html/:/var/www/html/"
-    ipv4_address: 172.20.0.2
+    networks:
+      - limesurvey
+    hostname: limesurvey
     ports:
       - "8080:80"
+    depends_on:
+      - mysql-server
+      - phpmyadmin
 
   mysql-server:
     build:
@@ -22,8 +27,12 @@ services:
       MYSQL_DATABASE: limesurvey
     volumes:
       - "./mysql-data:/var/lib/mysql/"
-    #command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
-    ipv4_address: 172.20.0.3
+    networks:
+      - limesurvey
+    hostname: mysql
+    ports:
+      - "3306:3306"
+      - "33060:33060"
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.0.1
@@ -32,6 +41,18 @@ services:
       PMA_HOST: mysql-server
       PMA_USER: root
       PMA_PASSWORD: secret
-    ipv4_address: 172.20.0.4
+    networks:
+      - limesurvey
+    hostname: phpmyadmin
     ports:
       - "5000:80"
+    depends_on:
+      - mysql-server
+
+networks:
+  limesurvey:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.0.0/16
