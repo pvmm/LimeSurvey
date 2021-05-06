@@ -12,10 +12,9 @@ services:
       - limesurvey
     hostname: limesurvey
     ports:
-      - "8080:80"
+      - "127.0.0.1:8080:80"
     depends_on:
       - mysql-server
-      - phpmyadmin
 
   mysql-server:
     build:
@@ -31,8 +30,7 @@ services:
       - limesurvey
     hostname: mysql
     ports:
-      - "3306:3306"
-      - "33060:33060"
+      - "127.0.0.1:33060:3306"
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.0.1
@@ -45,9 +43,10 @@ services:
       - limesurvey
     hostname: phpmyadmin
     ports:
-      - "5000:80"
+      - "127.0.0.1:5000:80"
     depends_on:
       - mysql-server
+      - web-server
 
 networks:
   limesurvey:
